@@ -1,6 +1,8 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block header %}
+    <header class="header--main-page">
+    {% include 'navbar.html' %}
 <div class="slogan container container--90">
         <div class="slogan--item">
           <h1>
@@ -9,6 +11,7 @@
           </h1>
         </div>
       </div>
+    </header>
 {% endblock %}
 {% block content %}
     <section id="stats" class="stats">
@@ -20,7 +23,7 @@
         </div>
 
         <div class="stats--item">
-          <em>{{ institutions }}</em>
+          <em>{{ institutions_count }}</em>
           <h3>Wspartych organizacji</h3>
           <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Laboriosam magnam, sint nihil cupiditate quas quam.</p>
         </div>
@@ -80,42 +83,34 @@
       <!-- SLIDE 1 -->
       <div class="help--slides active" data-id="1">
         <p>W naszej bazie znajdziesz listę zweryfikowanych Fundacji, z którymi współpracujemy. Możesz sprawdzić czym się zajmują, komu pomagają i czego potrzebują.</p>
-
         <ul class="help--slides-items">
+            {% for fun in foundations %}
           <li>
             <div class="col">
-              <div class="title">Fundacja "Dbam o Zdrowie"</div>
-              <div class="subtitle">Cel i misja: Pomoc dzieciom z ubogich rodzin.</div>
+              <div class="title">{{ fun.name }}</div>
+              <div class="subtitle">{{ fun.description }}</div>
             </div>
 
-            <div class="col"><div class="text">ubrania, jedzenie, sprzęt AGD, meble, zabawki</div></div>
+            <div class="col"><div class="text">{{ fun.categories|join:", " }}</div></div>
           </li>
-
-          <li>
-            <div class="col">
-              <div class="title">Fundacja “Dla dzieci"</div>
-              <div class="subtitle">Cel i misja: Pomoc osobom znajdującym się w trudnej sytuacji życiowej.</div>
-            </div>
-
-            <div class="col"><div class="text">ubrania, meble, zabawki</div></div>
-          </li>
-
-          <li>
-            <div class="col">
-              <div class="title">Fundacja “Bez domu”</div>
-              <div class="subtitle">Cel i misja: Pomoc dla osób nie posiadających miejsca zamieszkania</div>
-            </div>
-
-            <div class="col"><div class="text">ubrania, jedzenie, ciepłe koce</div></div>
-          </li>
+            {% endfor %}
         </ul>
-        <!-- Pagination
+        <!-- Pagination-->
+      <div class="pagination">
+    <span class="step-links">
         <ul class="help--slides-pagination">
-          <li><a href="#" class="btn btn--small btn--without-border active" data-page="1">1</a></li>
-          <li><a href="#" class="btn btn--small btn--without-border" data-page="2">2</a></li>
-          <li><a href="#" class="btn btn--small btn--without-border" data-page="3">3</a></li>
+        {% if foundations.has_previous %}
+          <li><a href="?page={{ foundations.previous_page_number }}" class="btn btn--small btn--without-border active" data-page="1">{{ foundations.previous_page_number }}</a></li>
+            {% endif %}
+        <span class="current">
+          <li><a href="?page={{ foundations.number }}" class="btn btn--small btn--without-border" data-page="2">{{ foundations.number }}</a></li>
+        </span>
+        {% if foundations.has_next %}
+          <li><a href="?page={{ foundations.next_page_number }}" class="btn btn--small btn--without-border" data-page="3">{{ foundations.next_page_number }}</a></li>
+            {% endif %}
         </ul>
-        -->
+    </span>
+      </div>
       </div>
 
 
@@ -126,41 +121,16 @@
           quos suscipit corporis!
         </p>
         <ul class="help--slides-items">
+            {% for ngo in ngos %}
           <li>
             <div class="col">
-              <div class="title">Organizacja 1</div>
-              <div class="subtitle">Lorem ipsum dolor sit amet consectetur.</div>
+              <div class="title">{{ ngo.name }}</div>
+              <div class="subtitle">{{ ngo.description }}</div>
             </div>
 
-            <div class="col"><div class="text">Lorem ipsum dolor sit amet consectetur adipisicing elit.</div></div>
+            <div class="col"><div class="text">{{ ngo.categories }}</div></div>
           </li>
-
-          <li>
-            <div class="col">
-              <div class="title">Organizacja 2</div>
-              <div class="subtitle">Lorem ipsum dolor sit amet consectetur.</div>
-            </div>
-
-            <div class="col"><div class="text">Lorem ipsum dolor sit amet consectetur adipisicing elit.</div></div>
-          </li>
-
-          <li>
-            <div class="col">
-              <div class="title">Organizacja 3</div>
-              <div class="subtitle">Lorem ipsum dolor sit amet consectetur.</div>
-            </div>
-
-            <div class="col"><div class="text">Lorem ipsum dolor sit amet consectetur adipisicing elit.</div></div>
-          </li>
-
-          <li>
-            <div class="col">
-              <div class="title">Organizacja 4</div>
-              <div class="subtitle">Lorem ipsum dolor sit amet consectetur.</div>
-            </div>
-
-            <div class="col"><div class="text">Lorem ipsum dolor sit amet consectetur adipisicing elit.</div></div>
-          </li>
+            {% endfor %}
         </ul>
 
         <!-- Pagination
@@ -178,23 +148,16 @@
       <div class="help--slides" data-id="3">
         <p>Lorem ipsum dolor sit amet, his ocurreret persequeris ea, ad utinam laudem duo. Verterem adipisci partiendo eos ne, ea his reque quaeque recteque, ne quo lobortis intellegam.</p>
         <ul class="help--slides-items">
+            {% for local in local_donations %}
           <li>
             <div class="col">
-              <div class="title">Lokalna zbiórka 1</div>
-              <div class="subtitle">Lorem ipsum dolor sit amet consectetur.</div>
+              <div class="title">{{ local.name }}</div>
+              <div class="subtitle">{{ local.description }}</div>
             </div>
 
-            <div class="col"><div class="text">Lorem ipsum dolor sit amet consectetur adipisicing elit.</div></div>
+            <div class="col"><div class="text">{{ local.categories }}</div></div>
           </li>
-
-          <li>
-            <div class="col">
-              <div class="title">Lokalna zbiórka 2</div>
-              <div class="subtitle">Lorem ipsum dolor sit amet consectetur.</div>
-            </div>
-
-            <div class="col"><div class="text">Lorem ipsum dolor sit amet consectetur adipisicing elit.</div></div>
-          </li>
+            {% endfor %}
         </ul>
 
         <!-- Pagination

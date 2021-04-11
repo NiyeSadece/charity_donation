@@ -16,9 +16,10 @@ Including another URLconf
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
+from django.contrib.auth import views as auth_views
 from django.urls import path
 
-from charity_donation import views as dv
+from donation_page import views as dv
 
 
 urlpatterns = [
@@ -27,6 +28,7 @@ urlpatterns = [
     path('make-donation/', dv.AddDonation.as_view(), name='make-donation'),
     path('login/', dv.Login.as_view(), name='login'),
     path('register/', dv.Register.as_view(), name='register'),
+    path('logout/', auth_views.LogoutView.as_view(), name='logout'),
 ]
 
 if settings.DEBUG:
