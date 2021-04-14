@@ -3,9 +3,10 @@ from django.shortcuts import render, redirect
 from django.views import View
 from django.views.generic import FormView
 from django.contrib.auth import authenticate, login
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 from users.forms import CustomUserCreationForm, CustomAuthenticationForm
-from .models import Donation, Institution
+from .models import Donation, Institution, Category
 
 
 class LoadingPage(View):
@@ -41,9 +42,13 @@ class LoadingPage(View):
         return render(request, 'index.html', context)
 
 
-class AddDonation(View):
+class AddDonation(LoginRequiredMixin, View):
     def get(self, request, *args, **kwargs):
-        return render(request, 'form.html')
+        context = {
+            'categories': Category.objects.all(),
+            'institutions': Institution.objects.all(),
+        }
+        return render(request, 'form.html', context)
 
 
 class Login(FormView):
@@ -71,3 +76,8 @@ class Register(FormView):
         if user:
             return redirect('login')
         return super().form_valid(form)
+
+
+class User(LoginRequiredMixin, View):
+    def get(self, request, *args, **kwargs):
+        return render(request, 'user.html')

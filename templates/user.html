@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block header %}
+     <header>
+    {% include 'navbar.html' %}
+             </header>
+{% endblock %}
+{% block content %}
+    <div class="container container--85">
+    <h2>{{ request.user.first_name }}<br>
+    {{ request.user.last_name }}<br>
+    {{ request.user.email }}<br>
+    </h2>
+    </div>
+{% endblock %}
