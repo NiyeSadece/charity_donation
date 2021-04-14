@@ -91,7 +91,7 @@
               <div class="subtitle">{{ fun.description }}</div>
             </div>
 
-            <div class="col"><div class="text">{{ fun.categories|join:", " }}</div></div>
+            <div class="col"><div class="text">{{ fun.categories.all|join:", " }}</div></div>
           </li>
             {% endfor %}
         </ul>
@@ -128,7 +128,7 @@
               <div class="subtitle">{{ ngo.description }}</div>
             </div>
 
-            <div class="col"><div class="text">{{ ngo.categories }}</div></div>
+            <div class="col"><div class="text">{{ ngo.categories.all|join:", " }}</div></div>
           </li>
             {% endfor %}
         </ul>
@@ -155,7 +155,7 @@
               <div class="subtitle">{{ local.description }}</div>
             </div>
 
-            <div class="col"><div class="text">{{ local.categories }}</div></div>
+            <div class="col"><div class="text">{{ local.categories.all|join:", " }}</div></div>
           </li>
             {% endfor %}
         </ul>

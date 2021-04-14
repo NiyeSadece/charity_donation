@@ -2,7 +2,7 @@
         <ul class="nav--actions">
             {% if request.user.is_authenticated %}
             <li class="logged-user">
-            Witaj, {{ request.user.email }}
+            Witaj, {{ request.user.first_name }}
             <ul class="dropdown">
               <li><a href="#">Profil</a></li>
               <li><a href="#">Ustawienia</a></li>
