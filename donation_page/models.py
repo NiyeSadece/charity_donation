@@ -1,6 +1,6 @@
 from django.db import models
 
-from users.models import CustomUser
+from users.models import CustomUser as User
 
 
 TYPES = (
@@ -41,7 +41,7 @@ class Donation(models.Model):
     pick_up_date = models.DateField()
     pick_up_time = models.TimeField()
     pick_up_comment = models.TextField(blank=True, null=True)
-    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
         return f"{self.pick_up_date}, {self.quantity} bags from {self.user} for {self.institution}"

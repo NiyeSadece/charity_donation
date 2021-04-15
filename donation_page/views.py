@@ -5,11 +5,11 @@ from django.views.generic import FormView
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.mixins import LoginRequiredMixin
 
-from users.forms import CustomUserCreationForm, CustomAuthenticationForm
+from users.forms import RegistrationForm, LoginForm
 from .models import Donation, Institution, Category
 
 
-class LoadingPage(View):
+class LoadingPageView(View):
     def get(self, request, *args, **kwargs):
         donations = Donation.objects.all()
         bags = 0
@@ -42,7 +42,7 @@ class LoadingPage(View):
         return render(request, 'index.html', context)
 
 
-class AddDonation(LoginRequiredMixin, View):
+class AddDonationView(LoginRequiredMixin, View):
     def get(self, request, *args, **kwargs):
         context = {
             'categories': Category.objects.all(),
@@ -51,23 +51,27 @@ class AddDonation(LoginRequiredMixin, View):
         return render(request, 'form.html', context)
 
 
-class Login(FormView):
-    form_class = CustomAuthenticationForm
+class LoginView(FormView):
+    form_class = LoginForm
     template_name = 'login.html'
 
     def form_valid(self, form):
-        info = form.cleaned_data
-        user = authenticate(username=info['username'],
-                            password=info['password'])
+        cd = form.cleaned_data
+        user = authenticate(username=cd['username'],
+                            password=cd['password'])
 
         if user:
             login(self.request, user)
             return redirect('home')
         return redirect('register')
 
+    def form_invalid(self, form):
+        """If the form is invalid, render the invalid form."""
+        return redirect('register')
 
-class Register(FormView):
-    form_class = CustomUserCreationForm
+
+class RegisterView(FormView):
+    form_class = RegistrationForm
     template_name = 'register.html'
 
     def form_valid(self, form):
@@ -78,6 +82,6 @@ class Register(FormView):
         return super().form_valid(form)
 
 
-class User(LoginRequiredMixin, View):
+class UserView(LoginRequiredMixin, View):
     def get(self, request, *args, **kwargs):
         return render(request, 'user.html')

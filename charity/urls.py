@@ -25,13 +25,12 @@ from donation_page import views as dv
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', dv.LoadingPage.as_view(), name='home'),
-    path('accounts/login/', RedirectView.as_view(url='login/')),
-    path('make-donation/', dv.AddDonation.as_view(), name='make-donation'),
-    path('login/', dv.Login.as_view(), name='login'),
-    path('register/', dv.Register.as_view(), name='register'),
+    path('', dv.LoadingPageView.as_view(), name='home'),
+    path('make-donation/', dv.AddDonationView.as_view(), name='make-donation'),
+    path('login/', dv.LoginView.as_view(), name='login'),
+    path('register/', dv.RegisterView.as_view(), name='register'),
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
-    path('user/', dv.User.as_view(), name='user'),
+    path('user/', dv.UserView.as_view(), name='user'),
 ]
 
 if settings.DEBUG:
