@@ -39,7 +39,7 @@ class LoadingPageView(View):
             'ngos': institutions_ngo_list,
             'local_donations': institutions_local_list,
         }
-        return render(request, 'index.html', context)
+        return render(request, 'donation_page/index.html', context)
 
 
 class AddDonationView(LoginRequiredMixin, View):
@@ -48,12 +48,37 @@ class AddDonationView(LoginRequiredMixin, View):
             'categories': Category.objects.all(),
             'institutions': Institution.objects.all(),
         }
-        return render(request, 'form.html', context)
+        return render(request, 'donation_page/form.html', context)
+
+    def post(self, request, *args, **kwargs):
+        institution = request.POST.get('organization')
+        categories = Category.objects.filter(pk=request.POST.get('categories'))
+        post_data = {
+            'quantity': request.POST.get('bags'),
+            'institution': Institution.objects.get(pk=institution),
+            'address': request.POST.get('address'),
+            'city': request.POST.get('city'),
+            'zip_code': request.POST.get('postcode'),
+            'phone_number': request.POST.get('phone'),
+            'pick_up_date': request.POST.get('data'),
+            'pick_up_time': request.POST.get('time'),
+            'pick_up_comment': request.POST.get('more_info'),
+            'user': request.user
+        }
+        donation = Donation.objects.create(**post_data)
+        for category in categories:
+            donation.categories.add(category)
+        return redirect('confirmation')
+
+
+class ConfirmationView(LoginRequiredMixin, View):
+    def get(self, request, *args, **kwargs):
+        return render(request, 'donation_page/form-confirmation.html')
 
 
 class LoginView(FormView):
     form_class = LoginForm
-    template_name = 'login.html'
+    template_name = 'donation_page/login.html'
 
     def form_valid(self, form):
         cd = form.cleaned_data
@@ -72,7 +97,7 @@ class LoginView(FormView):
 
 class RegisterView(FormView):
     form_class = RegistrationForm
-    template_name = 'register.html'
+    template_name = 'donation_page/register.html'
 
     def form_valid(self, form):
         user = form.save(commit=False)
@@ -84,4 +109,5 @@ class RegisterView(FormView):
 
 class UserView(LoginRequiredMixin, View):
     def get(self, request, *args, **kwargs):
-        return render(request, 'user.html')
+        donations = Donation.objects.filter(user=request.user.id)
+        return render(request, 'donation_page/user.html', {'donations': donations})

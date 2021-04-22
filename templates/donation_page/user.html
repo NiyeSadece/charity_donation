@@ -1,7 +1,7 @@
-{% extends 'base.html' %}
+{% extends 'donation_page/base.html' %}
 {% block header %}
      <header>
-    {% include 'navbar.html' %}
+    {% include 'donation_page/navbar.html' %}
              </header>
 {% endblock %}
 {% block content %}
@@ -10,5 +10,8 @@
     {{ request.user.last_name }}<br>
     {{ request.user.email }}<br>
     </h2>
+    {% for donation in donations %}
+        {{ donation }}<br>
+    {% endfor %}
     </div>
 {% endblock %}

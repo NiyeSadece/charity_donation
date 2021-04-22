@@ -244,6 +244,18 @@ document.addEventListener("DOMContentLoaded", function() {
      */
     submit(e) {
       e.preventDefault();
+      const formData = new FormData(this.$form.getElementsByTagName('form').item(0));
+
+      fetch('/make-donation/', {
+        method: 'post',
+        body: formData
+      }).then(function (response) {
+        return response.text();
+      }).then(function (data) {
+        console.log(data);
+      }).catch(function (error) {
+        console.error(error);
+      })
       this.currentStep++;
       this.updateForm();
     }

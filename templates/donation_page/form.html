@@ -1,7 +1,7 @@
-{% extends 'base.html' %}
+{% extends 'donation_page/base.html' %}
 {% block header %}
     <header class="header--form-page">
-    {% include 'navbar.html' %}
+    {% include 'donation_page/navbar.html' %}
       <div class="slogan container container--90">
         <div class="slogan--item">
           <h1>
@@ -54,10 +54,11 @@
       <div class="form--steps-container">
         <div class="form--steps-counter">Krok <span>1</span>/5</div>
 
-        <form action="form-confirmation.html" method="post">
+        <form action="" method="post">
+        {% csrf_token %}
           <!-- STEP 1: class .active is switching steps -->
           <div data-step="1" class="active">
-            <h3>Zaznacz co chcesz oddać:</h3>
+            <h3>Zaznacz, co chcesz oddać:</h3>
               {% for category in categories %}
             <div class="form-group form-group--checkbox">
               <label>
@@ -96,13 +97,13 @@
 
 
 
-          <!-- STEP 4 -->
+          <!-- STEP 3 -->
           <div data-step="3">
             <h3>Wybierz organizację, której chcesz pomóc:</h3>
             {% for institution in institutions %}
             <div class="form-group form-group--checkbox">
               <label>
-                <input type="radio" name="organization" value="old" />
+                <input type="radio" name="organization" value="{{ institution.id }}" />
                 <span class="checkbox radio"></span>
                 <span class="description">
                   <div class="title">{{ institution.name }}</div>
@@ -120,7 +121,7 @@
             </div>
           </div>
 
-          <!-- STEP 5 -->
+          <!-- STEP 4 -->
           <div data-step="4">
             <h3>Podaj adres oraz termin odbioru rzecz przez kuriera:</h3>
 
@@ -172,7 +173,7 @@
             </div>
           </div>
 
-          <!-- STEP 6 -->
+          <!-- STEP 5 -->
           <div data-step="5">
             <h3>Podsumowanie Twojej darowizny</h3>
 
