@@ -11,7 +11,11 @@
     {{ request.user.email }}<br>
     </h2>
     {% for donation in donations %}
-        {{ donation }}<br>
+        <div>
+    <label for="is_taken">Zabrano: </label>
+        <input type="checkbox" id="{{ donation.id }}" name="donations">
+    {{ donation }}
+        <br>
     {% endfor %}
     </div>
 {% endblock %}

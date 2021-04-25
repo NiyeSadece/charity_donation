@@ -1,9 +1,14 @@
+from django.contrib.auth import update_session_auth_hash
+from django.contrib.auth.forms import PasswordChangeForm
 from django.core.paginator import Paginator
 from django.shortcuts import render, redirect
 from django.views import View
 from django.views.generic import FormView
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth.decorators import login_required
 
 from users.forms import RegistrationForm, LoginForm
 from .models import Donation, Institution, Category
@@ -100,8 +105,7 @@ class RegisterView(FormView):
     template_name = 'donation_page/register.html'
 
     def form_valid(self, form):
-        user = form.save(commit=False)
-        user.save()
+        user = form.save()
         if user:
             return redirect('login')
         return super().form_valid(form)
@@ -111,3 +115,28 @@ class UserView(LoginRequiredMixin, View):
     def get(self, request, *args, **kwargs):
         donations = Donation.objects.filter(user=request.user.id)
         return render(request, 'donation_page/user.html', {'donations': donations})
+
+
+# class SettingsView(LoginRequiredMixin, FormView):
+#     form_class = PasswordChangeForm
+#     template_name = 'donation_page/settings.html'
+#
+#     def form_valid(self, form):
+#         user = form.save()
+#         update_session_auth_hash(self.request, user)
+#         return render()
+
+@method_decorator(csrf_exempt, name='dispatch')
+@login_required
+def change_password(request):
+    if request.method == 'POST':
+        form = PasswordChangeForm(request.user, request.POST)
+        if form.is_valid():
+            user = form.save()
+            update_session_auth_hash(request, user)
+            return redirect('user')
+    else:
+        form = PasswordChangeForm(request.user)
+    return render(request, 'donation_page/settings.html', {
+        'form': form
+    })
