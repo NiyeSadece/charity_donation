@@ -235,6 +235,70 @@ document.addEventListener("DOMContentLoaded", function() {
       this.$step.parentElement.hidden = this.currentStep >= 6;
 
       // TODO: get data from inputs and show them in summary
+      if (parseInt(document.getElementById('bags').value) === 1){
+        document.getElementById('bagsPreview').innerHTML = document.getElementById('bags').value
+      + " worek";
+      } else if (parseInt(document.getElementById('bagsPreview').value) < 5){
+        document.getElementById('bagsPreview').innerHTML = document.getElementById('bags').value
+      + " worki";
+      } else {
+        document.getElementById('bagsPreview').innerHTML = document.getElementById('bags').value
+      + " worków";
+      }
+      if (document.getElementById('jedzenie').checked){
+        document.getElementById('bagsPreview').innerHTML += " jedzenia";
+      }
+      if (document.getElementById('zabawki').checked){
+        document.getElementById('bagsPreview').innerHTML += " zabawek";
+      }
+      if (document.getElementById('meble').checked){
+        document.getElementById('bagsPreview').innerHTML += " mebli";
+      }
+      if (document.getElementById('książki').checked){
+        document.getElementById('bagsPreview').innerHTML += " książek";
+      }
+      if (document.getElementById('ubrania').checked){
+        document.getElementById('bagsPreview').innerHTML += " ubrań";
+      }
+      if (document.getElementById('Fundacja 1').checked){
+        document.getElementById('institutionPreview').innerHTML = "Dla Fundacji 1";
+      }
+      if (document.getElementById('Fundacja 2').checked){
+        document.getElementById('institutionPreview').innerHTML = "Dla Fundacji 2";
+      }
+      if (document.getElementById('Fundacja 3').checked){
+        document.getElementById('institutionPreview').innerHTML = "Dla Fundacji 3";
+      }
+      if (document.getElementById('Fundacja 4').checked){
+        document.getElementById('institutionPreview').innerHTML = "Dla Fundacji 4";
+      }
+      if (document.getElementById('Fundacja 5').checked){
+        document.getElementById('institutionPreview').innerHTML = "Dla Fundacji 5";
+      }
+      if (document.getElementById('Fundacja 6').checked){
+        document.getElementById('institutionPreview').innerHTML = "Dla Fundacji 6";
+      }
+      if (document.getElementById('Zbiórka 1').checked){
+        document.getElementById('institutionPreview').innerHTML = "Dla Zbiórki 1";
+      }
+      if (document.getElementById('NGO 1').checked){
+        document.getElementById('institutionPreview').innerHTML = "Dla NGO 1";
+      }
+      document.getElementById('streetPreview').innerHTML = document.getElementById('address').value;
+      document.getElementById('cityPreview').innerHTML = document.getElementById('city').value;
+      document.getElementById('postcodePreview').innerHTML = document.getElementById('postcode').value;
+      document.getElementById('phonePreview').innerHTML = document.getElementById('phone').value;
+      document.getElementById('datePreview').innerHTML = document.getElementById('date').value;
+      document.getElementById('timePreview').innerHTML = document.getElementById('time').value;
+      if (document.getElementById('extra').innerHTML != null){
+        document.getElementById('extraPreview').innerHTML = document.getElementById('extra').value;
+      }
+      if (document.getElementById('extraPreview').innerHTML === ""){
+        document.getElementById('extraPreview').innerHTML = "Brak uwag"
+      }
+
+
+
     }
 
     /**
@@ -242,7 +306,7 @@ document.addEventListener("DOMContentLoaded", function() {
      *
      * TODO: validation, send data to server
      */
-    submit(e) {
+/*    submit(e) {
       e.preventDefault();
       const formData = new FormData(this.$form.getElementsByTagName('form').item(0));
 
@@ -258,7 +322,7 @@ document.addEventListener("DOMContentLoaded", function() {
       })
       this.currentStep++;
       this.updateForm();
-    }
+    }*/
   }
   const form = document.querySelector(".form--steps");
   if (form !== null) {

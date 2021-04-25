@@ -31,7 +31,7 @@ urlpatterns = [
     path('register/', dv.RegisterView.as_view(), name='register'),
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
     path('user/', dv.UserView.as_view(), name='user'),
-    path('donation-confirmation', dv.ConfirmationView.as_view(), name='confirmation'),
+    path('donation-confirmation/', dv.ConfirmationView.as_view(), name='confirmation'),
 ]
 
 if settings.DEBUG:
