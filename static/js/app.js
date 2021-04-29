@@ -238,7 +238,7 @@ document.addEventListener("DOMContentLoaded", function() {
       if (parseInt(document.getElementById('bags').value) === 1){
         document.getElementById('bagsPreview').innerHTML = document.getElementById('bags').value
       + " worek";
-      } else if (parseInt(document.getElementById('bagsPreview').value) < 5){
+      } else if (parseInt(document.getElementById('bags').value) < 5){
         document.getElementById('bagsPreview').innerHTML = document.getElementById('bags').value
       + " worki";
       } else {
@@ -306,7 +306,7 @@ document.addEventListener("DOMContentLoaded", function() {
      *
      * TODO: validation, send data to server
      */
-/*    submit(e) {
+    submit(e) {
       e.preventDefault();
       const formData = new FormData(this.$form.getElementsByTagName('form').item(0));
 
@@ -314,15 +314,15 @@ document.addEventListener("DOMContentLoaded", function() {
         method: 'post',
         body: formData
       }).then(function (response) {
-        return response.text();
+        return response.json();
       }).then(function (data) {
-        console.log(data);
+        window.location.href = data.myurl;
       }).catch(function (error) {
         console.error(error);
       })
       this.currentStep++;
       this.updateForm();
-    }*/
+    }
   }
   const form = document.querySelector(".form--steps");
   if (form !== null) {

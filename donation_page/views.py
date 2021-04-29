@@ -9,6 +9,8 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
+from django.http import JsonResponse
+from django.urls import reverse
 
 from users.forms import RegistrationForm, LoginForm
 from .models import Donation, Institution, Category
@@ -73,7 +75,7 @@ class AddDonationView(LoginRequiredMixin, View):
         donation = Donation.objects.create(**post_data)
         for category in categories:
             donation.categories.add(category)
-        return redirect('confirmation')
+        return JsonResponse({'myurl': reverse('confirmation')})
 
 
 class ConfirmationView(LoginRequiredMixin, View):
